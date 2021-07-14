@@ -1,0 +1,79 @@
+POST http://localhost:5000/api/task/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlNjY2YjYwNDVhMTE3OTgwMjMwYWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjI0NTcxNH0.mh6w-1dEW8YheovbexrmEghn_fkPe_ndWE2TK4xuhYg
+
+{
+    "title":"do homework",
+    "desc":"Feed at 6:00PM"
+}
+
+###
+GET http://localhost:5000/api/task/60ee8a886a9195477c9ef694
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlNjY2YjYwNDVhMTE3OTgwMjMwYWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjI0NTcxNH0.mh6w-1dEW8YheovbexrmEghn_fkPe_ndWE2TK4xuhYg
+
+###
+GET http://localhost:5000/api/task/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlNjY2YjYwNDVhMTE3OTgwMjMwYWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjI0NTcxNH0.mh6w-1dEW8YheovbexrmEghn_fkPe_ndWE2TK4xuhYg
+
+###
+DELETE  http://localhost:5000/api/task/60ee67ece7eb3a42342d0a2c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlNjY2YjYwNDVhMTE3OTgwMjMwYWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjIzNjUyM30.KAU78qXvTI669Ebbq_1S1PjzAXTgH5X_VVj6AMelyxw
+
+
+###
+PUT http://localhost:5000/api/task/60ee8a886a9195477c9ef694
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlNjY2YjYwNDVhMTE3OTgwMjMwYWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjI0NTcxNH0.mh6w-1dEW8YheovbexrmEghn_fkPe_ndWE2TK4xuhYg
+
+{
+    "desc":"Đang sửa bên database"
+}
+
+###
+POST  http://localhost:5000/api/user/register
+Content-Type: application/json
+
+{
+    "username":"user3",
+    "password":"dang",
+    "name": "Nguyen Hai Dang"
+}
+
+###
+GET http://localhost:5000/api/user/get-all-user-account
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVkNmQ0N2EwNWU0ODBmN2M5YzYwYzAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjYxNzI3NDR9.gdIcN7ugBQJwRcHIXEBzl6TmMntwz_k48qUcVtFo2to
+###
+POST http://localhost:5000/api/user/login
+Content-Type: application/json
+
+{
+    "username":"dang13",
+    "password":"dang"
+}
+
+###
+GET http://localhost:5000/api/user/profile/60ee666b6045a117980230aa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVkNmQ0N2EwNWU0ODBmN2M5YzYwYzAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjYyMzQ3ODZ9.NhZN-rJTFRAitlasUFyqRmrEAeiP0465mYj1fo_L9xY
+
+###
+PUT http://localhost:5000/api/user/update-profile/60ee666b6045a117980230aa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlNjY2YjYwNDVhMTE3OTgwMjMwYWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjI0ODgxMH0.qqDGzlUsFaj6dVBfDLUw1cpybkE_IsnNIyQALrhQQHE
+Content-Type: application/json
+
+{
+    "address":"Ha Noi Nghi Nam Van Vo"
+}
+
+###
+PUT http://localhost:5000/api/user/change-password/60ee666b6045a117980230aa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlNjY2YjYwNDVhMTE3OTgwMjMwYWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjI0ODgxMH0.qqDGzlUsFaj6dVBfDLUw1cpybkE_IsnNIyQALrhQQHE
+Content-Type: application/json
+
+{
+    "curPassword":"dang",
+    "updatePassword":"1234"
+}
+
+###
+PUT http://localhost:5000/api/user/change-role/60ee666b6045a117980230aa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVkNmQ0N2EwNWU0ODBmN2M5YzYwYzAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjYyNTYwNzJ9.5C4O_3Y0nh1X2wn4F3kYrb1NAq3Q-hijffc_ZwEV9yk
