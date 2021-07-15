@@ -34,7 +34,7 @@ POST  http://localhost:5000/api/user/register
 Content-Type: application/json
 
 {
-    "username":"user3",
+    "username":"user4",
     "password":"dang",
     "name": "Nguyen Hai Dang"
 }
@@ -47,7 +47,7 @@ POST http://localhost:5000/api/user/login
 Content-Type: application/json
 
 {
-    "username":"dang13",
+    "username":"user3",
     "password":"dang"
 }
 
