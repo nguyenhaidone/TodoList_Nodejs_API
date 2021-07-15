@@ -9,8 +9,6 @@ import { JWT } from "../../middleware/auth.genToken";
 export const register = async (req: express.Request, res: express.Response) => {
   const registerAcc: IUser = req.body;
 
-  let registerUser: any;
-
   //check invalid username password
   if (registerAcc.username === "" || registerAcc.password === "")
     return res
@@ -29,11 +27,10 @@ export const register = async (req: express.Request, res: express.Response) => {
         //hash password
         const hashPassword = await argon2.hash(registerAcc.password);
 
-        registerUser = new User({
+        let registerUser = new User({
           ...registerAcc,
           password: hashPassword,
         });
-        console.log(registerUser);
 
         await registerUser.save();
         /**
@@ -48,7 +45,6 @@ export const register = async (req: express.Request, res: express.Response) => {
         return res.status(200).json(
           response(true, "Register successfully", {
             name: registerUser.name,
-            role: registerUser.roles,
             token,
           })
         );
@@ -66,7 +62,9 @@ export const getAllUserAccount = async (
 ) => {
   try {
     if (req.userData.role === "admin") {
-      const getAllAccount: IUser | IUser[] = await User.find();
+      const getAllAccount = await User.find().select(
+        "-password -createdAt -__v"
+      );
       return res
         .status(200)
         .json(response(true, "get all user success", getAllAccount));
@@ -89,7 +87,7 @@ export const login = async (req: express.Request, res: express.Response) => {
         username: loginAcc.username,
       });
       if (!loginUser)
-        res.status(200).json(response(false, "Incorrect username"));
+        res.status(400).json(response(false, "Incorrect username"));
       else {
         try {
           const verifyPassword = await argon2.verify(
@@ -109,7 +107,6 @@ export const login = async (req: express.Request, res: express.Response) => {
             res.status(200).json(
               response(true, "Login success", {
                 name: loginUser.name,
-                role: loginUser.roles,
                 token: token,
               })
             );
@@ -133,27 +130,36 @@ export const updateUserAccount = async (
 ) => {
   if (req.userData.role === "user" && req.userData.userId === req.params.id) {
     try {
-      const { name, dateOfBirth, address } = req.body;
+      const { name, dateOfBirth, address }: IUser = req.body;
 
-      let updateInfor = {};
-      let userInfor = await User.findOne({ _id: req.params.id });
+      let userInfor: IUser = await User.findOne({ _id: req.params.id });
       if (!userInfor)
         res.status(404).json(response(false, "Account not found"));
       else {
         if (name === "")
           res.status(400).json(response(false, "Name is required"));
-        else
-          updateInfor = {
+        else {
+          let updateInfor: IUser = {
+            username: userInfor.username,
+            password: userInfor.password,
+            roles: userInfor.roles,
             name: name === undefined ? userInfor.name : name,
             dateOfBirth:
               dateOfBirth === undefined ? userInfor.dateOfBirth : dateOfBirth,
             address: address === undefined ? userInfor.address : address,
           };
 
-        await User.findOneAndUpdate({ _id: req.params.id }, updateInfor, {
-          new: true,
-        });
-        res.status(200).json(response(true, "update infor success", userInfor));
+          const updateUser = await User.findOneAndUpdate(
+            { _id: req.params.id },
+            updateInfor,
+            {
+              new: true,
+            }
+          ).select("-password -createdAt -__v");
+          res
+            .status(200)
+            .json(response(true, "update infor success", updateUser));
+        }
       }
     } catch (error) {}
   } else {
@@ -171,7 +177,9 @@ export const getProfileUser = async (
       (req.userData.role === "user" && req.userData.userId === userId) ||
       req.userData.role === "admin"
     ) {
-      const userProfile = await User.findOne({ _id: userId });
+      const userProfile: IUser = await User.findOne({ _id: userId }).select(
+        "-password -createdAt -__v"
+      );
       if (!userProfile) res.status(404).json(response(false, "User not found"));
       else
         res
@@ -190,8 +198,11 @@ export const changeUserPassword = async (
 ) => {
   if (req.userData.userId === req.params.id) {
     try {
-      const { curPassword, updatePassword } = req.body;
-      const curProfile = await User.findOne({ _id: req.params.id });
+      const {
+        curPassword,
+        updatePassword,
+      }: { curPassword: string; updatePassword: string } = req.body;
+      const curProfile: IUser = await User.findOne({ _id: req.params.id });
 
       const verifyPassword = await argon2.verify(
         curProfile.password,
@@ -221,9 +232,7 @@ export const changeUserPassword = async (
           );
         }
       }
-      res
-        .status(200)
-        .json(response(true, "update password success", curProfile));
+      res.status(200).json(response(true, "update password success"));
     } catch (error) {}
   } else res.status(403).json(response(false, "Forbidden access"));
 };
@@ -234,7 +243,7 @@ export const changeRole = async (
 ) => {
   if (req.userData.role === "admin") {
     try {
-      const userRoleUpdate = await User.findOne({ _id: req.params.id });
+      const userRoleUpdate: IUser = await User.findOne({ _id: req.params.id });
       if (!userRoleUpdate)
         res.status(404).json(response(false, "Account not found"));
       else {
@@ -244,9 +253,7 @@ export const changeRole = async (
         await User.findOneAndUpdate({ _id: req.params.id }, roleUpdate, {
           new: true,
         });
-        res
-          .status(200)
-          .json(response(true, "Change role success", userRoleUpdate));
+        res.status(200).json(response(true, "Change role success"));
       }
     } catch (error) {
       res.status(500).json(response(false, "Internal server error"));
