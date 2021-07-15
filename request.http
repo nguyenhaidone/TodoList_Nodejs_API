@@ -77,3 +77,7 @@ Content-Type: application/json
 ###
 PUT http://localhost:5000/api/user/change-role/60ee666b6045a117980230aa
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVkNmQ0N2EwNWU0ODBmN2M5YzYwYzAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MjYyNTYwNzJ9.5C4O_3Y0nh1X2wn4F3kYrb1NAq3Q-hijffc_ZwEV9yk
+
+###
+GET http://localhost:5000/api/user/current-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGVlOGRhNjgwNjBhNDNiNDRhNDdlZDUiLCJyb2xlIjoidXNlciIsImlhdCI6MTYyNjMzMTMzMX0.rw78kOdGHM68CsaQqufwesm8-AQOTCqajJuFKi27GXQ

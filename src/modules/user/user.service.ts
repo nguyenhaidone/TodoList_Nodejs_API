@@ -253,3 +253,26 @@ export const changeRole = async (
     }
   } else res.status(403).json(response(false, "Forbidden access"));
 };
+
+export const getInforCurrentUser = async (
+  req: express.Request | any,
+  res: express.Response
+) => {
+  try {
+    if (req.userData.role === "user") {
+      const curUser: IUser = await User.findOne({ _id: req.userData.userId });
+      if (!curUser) res.status(404).json(response(false, "Account not found"));
+      else
+        res.status(200).json(
+          response(true, "Get current user success", {
+            name: curUser.name,
+            address: curUser.address,
+            dateOfBirth: curUser.dateOfBirth,
+          })
+        );
+    } else res.status(403).json(response(false, "Forbidden access"));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(response(false, "Internal server error"));
+  }
+};

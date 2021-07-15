@@ -8,6 +8,7 @@ import {
   getProfile,
   changePassword,
   updateRole,
+  getCurrent,
 } from "./user.controller";
 import { verifyAccount } from "../../middleware/auth.verify";
 
@@ -69,4 +70,11 @@ router.get("/profile/:id", verifyAccount, getProfile);
  */
 router.put("/change-role/:id", verifyAccount, updateRole);
 
+/**
+ * Get profile current user
+ * Method: GET
+ * Authorization: User
+ * Route: http://localhost:5000/api/user/current-user
+ */
+router.get("/current-user", verifyAccount, getCurrent);
 export default router;

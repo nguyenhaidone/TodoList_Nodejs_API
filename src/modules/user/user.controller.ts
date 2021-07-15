@@ -7,6 +7,7 @@ import {
   getProfileUser,
   changeUserPassword,
   changeRole,
+  getInforCurrentUser,
 } from "./user.service";
 
 export const registerAccount = async (
@@ -37,4 +38,8 @@ export const getProfile = (req: express.Request, res: express.Response) => {
 
 export const updateRole = (req: express.Request, res: express.Response) => {
   changeRole(req, res);
+};
+
+export const getCurrent = (req: express.Request, res: express.Response) => {
+  getInforCurrentUser(req, res);
 };
